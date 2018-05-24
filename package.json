@@ -37,5 +37,8 @@
     "gulp-util": "^3.0.8",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
+  },
+  "optionalDependencies": {
+    "react-native-webrtc": "^1.58.3"
   }
 }
