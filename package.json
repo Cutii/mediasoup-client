@@ -12,7 +12,14 @@
     "type": "git",
     "url": "https://github.com/versatica/mediasoup-client.git"
   },
-  "main": "lib-es5/index.js",
+  "main": "build/index.js",
+  "scripts": {
+    "prebuild": "npm run build:clean",
+    "precommit":
+      "lint-staged && npm run build && (git add build || echo 'could not add build files')",
+    "build": "babel lib -d ./build --ignore '**/*.test.js'",
+    "build:clean": "rm -rf build/"
+  },
   "dependencies": {
     "babel-plugin-transform-builtin-classes": "^0.6.1",
     "bowser": "^1.9.3",
@@ -24,21 +31,23 @@
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
-    "browserify": "^16.2.2",
+    "babel-cli": "^6.18.0",
+    "babel-eslint": "^7.1.1",
     "eslint": "^4.19.1",
-    "eslint-plugin-import": "^2.11.0",
-    "gulp": "^4.0.0",
-    "gulp-babel": "^7.0.1",
-    "gulp-eslint": "^4.0.2",
-    "gulp-header": "^2.0.5",
-    "gulp-plumber": "^1.2.0",
-    "gulp-rename": "^1.2.3",
-    "gulp-uglify": "^3.0.0",
-    "gulp-util": "^3.0.8",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
   },
   "optionalDependencies": {
     "react-native-webrtc": "^1.58.3"
+  },
+  "lint-staged": {
+    "linters": {
+      "*.{js,json}": [
+        "prettier-eslint --single-quote --trailing-comma es5 --write",
+        "git add"
+      ],
+      "*.js": ["eslint --fix", "git add"]
+    },
+    "concurrent": false
   }
 }

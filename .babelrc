@@ -1,7 +1,13 @@
 {
-	"plugins":
-	[
-		[ "transform-builtin-classes", { "globals": [ "Error" ] } ]
-	],
-	"presets": [ "env" ]
+  "plugins": [["transform-builtin-classes", { "globals": ["Error"] }]],
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": ["last 2 versions"]
+        }
+      }
+    ]
+  ]
 }
