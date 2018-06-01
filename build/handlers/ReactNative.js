@@ -63,26 +63,25 @@ var Handler = function (_EnhancedEventEmitter) {
   function Handler(direction, rtpParametersByKind, settings) {
     _classCallCheck(this, Handler);
 
-    //Nothing feels better than hacking your way through life...
-    //HACK to make mediasoup work with react-native-webrtc
-
-    var _this = _possibleConstructorReturn(this, (Handler.__proto__ || Object.getPrototypeOf(Handler)).call(this, logger));
-
-    var self = _this;
-    MediaStream.prototype.addTrack = function (track) {
-      track.streamReactTag = this.reactTag;
-      this.oldAddTrack(track);
-      self._pc.addStream(this);
-    };
-
     // RTCPeerConnection instance.
     // @type {RTCPeerConnection}
+    var _this = _possibleConstructorReturn(this, (Handler.__proto__ || Object.getPrototypeOf(Handler)).call(this, logger));
+
     _this._pc = new RTCPeerConnection({
       iceServers: settings.turnServers || [],
       iceTransportPolicy: 'all',
       bundlePolicy: 'max-bundle',
       rtcpMuxPolicy: 'require'
     });
+
+    //Nothing feels better than hacking your way through life...
+    //HACK to make mediasoup work with react-native-webrtc
+    var self = _this;
+    MediaStream.prototype.addTrack = function (track) {
+      track.streamReactTag = this.reactTag;
+      this.oldAddTrack(track);
+      self._pc.addStream(this);
+    };
 
     // Generic sending RTP parameters for audio and video.
     // @type {Object}
