@@ -38,10 +38,6 @@ var _RemotePlanBSdp = require('./sdp/RemotePlanBSdp');
 
 var _RemotePlanBSdp2 = _interopRequireDefault(_RemotePlanBSdp);
 
-var _reactNativeWebrtc = require('react-native-webrtc');
-
-var webrtc = _interopRequireWildcard(_reactNativeWebrtc);
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -50,7 +46,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /* eslint-disable no-empty */
+/* eslint-disable no-param-reassign */
+/* eslint-disable default-case */
+
+var webrtc = {};
+try {
+  webrtc = require('react-native-webrtc');
+} catch (err) {}
 
 var logger = new _Logger2.default('ReactNative');
 
@@ -158,9 +161,13 @@ var SendHandler = function (_Handler) {
 
       logger.debug('addProducer() [id:%s, kind:%s, trackId:%s]', producer.id, producer.kind, track.id);
 
-      if (this._tracks.has(track)) return Promise.reject(new Error('track already added'));
+      if (this._tracks.has(track)) {
+        return Promise.reject(new Error('track already added'));
+      }
 
-      if (!track.streamReactTag) return Promise.reject(new Error('no track.streamReactTag property'));
+      if (!track.streamReactTag) {
+        return Promise.reject(new Error('no track.streamReactTag property'));
+      }
 
       var stream = void 0;
       var localSdpObj = void 0;
@@ -235,7 +242,9 @@ var SendHandler = function (_Handler) {
 
       logger.debug('removeProducer() [id:%s, kind:%s, trackId:%s]', producer.id, producer.kind, track.id);
 
-      if (!track.streamReactTag) return Promise.reject(new Error('no track.streamReactTag property'));
+      if (!track.streamReactTag) {
+        return Promise.reject(new Error('no track.streamReactTag property'));
+      }
 
       return Promise.resolve().then(function () {
         // Remove the track from the Set.
@@ -283,7 +292,9 @@ var SendHandler = function (_Handler) {
 
       logger.debug('replaceProducerTrack() [id:%s, kind:%s, trackId:%s]', producer.id, producer.kind, track.id);
 
-      if (!track.streamReactTag) return Promise.reject(new Error('no track.streamReactTag property'));
+      if (!track.streamReactTag) {
+        return Promise.reject(new Error('no track.streamReactTag property'));
+      }
 
       var oldTrack = producer.track;
       var stream = void 0;
@@ -452,7 +463,9 @@ var RecvHandler = function (_Handler2) {
 
       logger.debug('addConsumer() [id:%s, kind:%s]', consumer.id, consumer.kind);
 
-      if (this._consumerInfos.has(consumer.id)) return Promise.reject(new Error('Consumer already added'));
+      if (this._consumerInfos.has(consumer.id)) {
+        return Promise.reject(new Error('Consumer already added'));
+      }
 
       var encoding = consumer.rtpParameters.encodings[0];
       var cname = consumer.rtpParameters.rtcp.cname;
@@ -464,7 +477,9 @@ var RecvHandler = function (_Handler2) {
         cname: cname
       };
 
-      if (encoding.rtx && encoding.rtx.ssrc) consumerInfo.rtxSsrc = encoding.rtx.ssrc;
+      if (encoding.rtx && encoding.rtx.ssrc) {
+        consumerInfo.rtxSsrc = encoding.rtx.ssrc;
+      }
 
       this._consumerInfos.set(consumer.id, consumerInfo);
       this._kinds.add(consumer.kind);
@@ -511,7 +526,9 @@ var RecvHandler = function (_Handler2) {
 
       logger.debug('removeConsumer() [id:%s, kind:%s]', consumer.id, consumer.kind);
 
-      if (!this._consumerInfos.has(consumer.id)) return Promise.reject(new Error('Consumer not found'));
+      if (!this._consumerInfos.has(consumer.id)) {
+        return Promise.reject(new Error('Consumer not found'));
+      }
 
       this._consumerInfos.delete(consumer.id);
 
