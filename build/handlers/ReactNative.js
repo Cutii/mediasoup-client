@@ -79,15 +79,15 @@ var Handler = function (_EnhancedEventEmitter) {
 
     var self = _this;
     MediaStream.prototype.addTrack = function (track) {
-      track.streamReactTag = this.reactTag;
-      this.oldAddTrack(track);
+      if (!track.streamReactTag) {
+        track.streamReactTag = this.reactTag || Date.now();
+      }
       if (!this.reactTag) {
         this.reactTag = track.streamReactTag;
         this.id = this.reactTag;
-      } else {
-        track.streamReactTag = this.reactTag;
       }
-      if (track.remote) self._pc.addStream(this);
+      this.oldAddTrack(track);
+      self._pc.addStream(this);
     };
 
     // Generic sending RTP parameters for audio and video.
