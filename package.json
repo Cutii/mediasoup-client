@@ -22,7 +22,7 @@
   "dependencies": {
     "babel-plugin-transform-builtin-classes": "^0.6.1",
     "bowser": "^1.9.3",
-    "debug": "^3.1.0",
+    "debug": "3.1.0",
     "events": "^2.0.0",
     "random-number": "0.0.9",
     "sdp-transform": "^2.4.1"
